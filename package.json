@@ -1,8 +1,11 @@
 {
   "name": "dts-for-context-bridge",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "dts-cb generate .d.ts file for contextBridge.exposeInMainWorld",
+  "main": "bin/index.js",
+  "bin": {
+    "dts-cb": "bin/index.js"
+  },
   "type": "module",
   "scripts": {
     "test": "uvu"
@@ -14,6 +17,7 @@
   "author": "Alex Kozack (https://kozack.me)",
   "license": "MIT",
   "dependencies": {
+    "coa": "2.0.2",
     "ts-morph": "13.0.2"
   },
   "devDependencies": {

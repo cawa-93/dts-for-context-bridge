@@ -37,3 +37,24 @@ interface Window {
     electron: {doThing: () => void}
 }
 ```
+## Installation
+```bash
+# global
+npm i -g dts-for-context-bridge
+
+# for project 
+npm i dts-for-context-bridge
+```
+
+## Usage
+```bash
+dts-cb --input=INPUT --output=OUTPUT
+
+# in short
+dts-cb -i INPUT -o OUTPUT
+```
+
+See all options by
+```basg
+dts-cb --help
+```
