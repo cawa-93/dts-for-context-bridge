@@ -1,6 +1,6 @@
 import {test} from 'uvu';
 import * as assert from 'uvu/assert';
-import {findReferences} from "../findReferences.js";
+import {findReferences} from "../lib/findReferences.js";
 import {Project} from "ts-morph";
 
 test('default import', () => {
@@ -63,6 +63,17 @@ test('named import with alias', () => {
     )
     const references = findReferences(project)
     assert.is(references.get(expectedKey), expectedType)
+})
+
+test('exposeInMainWorld without arguments should be ignored', () => {
+    const project = new Project()
+    project.createSourceFile(
+        './tmp.ts',
+        'import {contextBridge as contextBridgeAlias} from "electron"'
+        + `contextBridgeAlias.exposeInMainWorld()`
+    )
+    const references = findReferences(project)
+    assert.is(references.size, 0)
 })
 
 test.run()
