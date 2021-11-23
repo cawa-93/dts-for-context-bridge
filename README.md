@@ -1,4 +1,4 @@
-# dts-for-preload
+# dts-for-cb
 This utility is designed to analyze [context bridges in Electron application](https://www.electronjs.org/ru/docs/latest/api/context-bridge) and create `.d.ts` files.
 
 ## Problem
