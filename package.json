@@ -1,6 +1,6 @@
 {
   "name": "dts-for-context-bridge",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "dts-cb generate .d.ts file for contextBridge.exposeInMainWorld",
   "main": "bin/index.js",
   "bin": {
