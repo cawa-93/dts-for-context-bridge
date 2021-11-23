@@ -59,7 +59,7 @@ dts-cb --help
 ### Programmatic usage
 
 ```js
-import {index} from './index.js'
+import {index} from 'dts-for-context-bridge'
 
 index({
     input: GLOB_PATTERN,
