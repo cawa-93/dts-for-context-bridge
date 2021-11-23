@@ -15,6 +15,10 @@
     "typescript"
   ],
   "author": "Alex Kozack (https://kozack.me)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cawa-93/dts-for-context-bridge.git"
+  },
   "license": "MIT",
   "dependencies": {
     "coa": "2.0.2",
