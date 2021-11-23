@@ -48,13 +48,24 @@ npm i dts-for-context-bridge
 
 ## Usage
 ```bash
-dts-cb --input=INPUT --output=OUTPUT
-
-# in short
-dts-cb -i INPUT -o OUTPUT
+dts-cb --input=GLOB_PATTERN --output=PATH_TO_FILE
 ```
 
 See all options by
-```basg
+```bash
 dts-cb --help
 ```
+
+### Programmatic usage
+
+```js
+import {index} from './index.js'
+
+index({
+    input: GLOB_PATTERN,
+    output: PATH_TO_FILE,
+})
+```
+
+## Is it stable?
+The utility relies on AST analysis and currently does not cover all cases. **Feel free to create PR.**
