@@ -20,6 +20,10 @@
     "url": "https://github.com/cawa-93/dts-for-context-bridge.git"
   },
   "license": "MIT",
+  "files": [
+    "lib",
+    "bin"
+  ],
   "dependencies": {
     "coa": "2.0.2",
     "ts-morph": "13.0.2"
