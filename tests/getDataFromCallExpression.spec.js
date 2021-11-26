@@ -32,10 +32,10 @@ test('Should parse api type', () => {
 })
 
 
-// test('Should parse api type from external module', () => {
-//     project.createSourceFile('./external.ts', `export const api = {foo: 'bar'}`)
-//     assert.is(parseCallExpressionFromCode(`import {api} from './external.ts'; expose('k', api)`).api, `{ foo: string; }`)
-// })
+test('Should parse api type from external module', () => {
+    project.createSourceFile('./external.ts', `export const api = {foo: 'bar'}`)
+    assert.is(parseCallExpressionFromCode(`import {api} from './external'; expose('k', api)`).api, `{ foo: string; }`)
+})
 
 
 test('Should parse single JSDoc before call expression', () => {
