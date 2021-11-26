@@ -8,7 +8,7 @@
   },
   "type": "module",
   "scripts": {
-    "test": "uvu"
+    "test": "uvu tests"
   },
   "keywords": [
     "electron",
