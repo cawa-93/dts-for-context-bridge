@@ -1,3 +1,4 @@
+import '../global'
 import {contextBridge} from 'electron'
 
 /**

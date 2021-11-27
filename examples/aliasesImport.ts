@@ -1,3 +1,4 @@
+import '../global'
 import electronAlias, {contextBridge as contextBridgeAlias} from 'electron'
 
 /**
