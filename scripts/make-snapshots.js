@@ -2,26 +2,27 @@ import fs from 'node:fs'
 import path from 'node:path'
 import {generate} from "../src/generate.js";
 
-const SNAPSHOTS_DIR_PATH = path.resolve('./examples')
-
-const filesToProcess =
-    typeof process.argv[2] === 'string'
-        ? [path.resolve(process.argv[2])]
-        : fs
-            .readdirSync(SNAPSHOTS_DIR_PATH)
-            .filter(
-                file =>
-                    fs.lstatSync(path.resolve(SNAPSHOTS_DIR_PATH, file)).isFile()
-                    && file.endsWith('.ts') && !file.endsWith('.d.ts')
-            )
-            .map(file => path.resolve(SNAPSHOTS_DIR_PATH, file))
-
-
-filesToProcess.forEach(file => {
-    const basename = path.basename(file, '.ts')
-    generate({
-        input: file,
-        output: file.replace(basename, `${basename}.d`)
+export function makeSnapshots(
+    SNAPSHOTS_DIR_PATH = path.resolve('./examples'),
+    OUTPUT_DIR_PATH = path.resolve('./examples')
+) {
+    const entries =  fs.readdirSync(SNAPSHOTS_DIR_PATH)
+    entries.forEach(entry => {
+        const fullPath = path.resolve(SNAPSHOTS_DIR_PATH, entry)
+        if (fs.lstatSync(fullPath).isDirectory()) {
+            generate({
+                input: path.resolve(SNAPSHOTS_DIR_PATH, entry, './**/*.ts'),
+                output: path.resolve(OUTPUT_DIR_PATH, `${entry}.d.ts`),
+            })
+        } else if (entry.endsWith('.ts') && !entry.endsWith('.d.ts')) {
+            generate({
+                input: path.resolve(SNAPSHOTS_DIR_PATH, entry),
+                output: path.resolve(OUTPUT_DIR_PATH, entry.replace('.ts', '.d.ts')),
+            })
+        }
     })
-})
+}
 
+if (process.argv[2] === 'run') {
+    makeSnapshots()
+}

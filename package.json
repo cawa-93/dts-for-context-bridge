@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": "uvu tests",
-    "make:snapshots": "node scripts/make-snapshots.js",
+    "make:snapshots": "node scripts/make-snapshots.js run",
     "build:esm": "esbuild ./src/generate.js --bundle --external:ts-morph --minify --outfile=dist/dts-cb.js --platform=node --format=esm",
     "build:cjs": "esbuild ./src/generate.js --bundle --external:ts-morph --minify --outfile=dist/dts-cb.cjs --platform=node --format=cjs",
     "build": "npm run build:esm && npm run build:cjs",

@@ -1,41 +1,28 @@
 import fs from "node:fs";
 import path from "node:path";
-import {generate} from "../dist/dts-cb.js";
 import {test} from "uvu";
 import * as assert from "uvu/assert";
+import {makeSnapshots} from "../scripts/make-snapshots.js";
+import {tmpdir} from "os";
 
 const SNAPSHOTS_DIR_PATH = path.resolve('./examples')
+const OUTPUT_DIR_PATH = fs.mkdtempSync(path.join(tmpdir(), 'dts-cb-test-snapshots'))
 
-const filesToTest = fs
-    .readdirSync(SNAPSHOTS_DIR_PATH)
-    .filter(
-        file =>
-            fs.lstatSync(path.resolve(SNAPSHOTS_DIR_PATH, file)).isFile()
-            && file.endsWith('.ts') && !file.endsWith('.d.ts')
-    )
-    .map(file => path.resolve(SNAPSHOTS_DIR_PATH, file))
+makeSnapshots(SNAPSHOTS_DIR_PATH, OUTPUT_DIR_PATH)
+const expectedSnapshots = new Set(fs.readdirSync(SNAPSHOTS_DIR_PATH).filter(e => e.endsWith('.d.ts')))
+const actualSnapshots = new Set(fs.readdirSync(SNAPSHOTS_DIR_PATH).filter(e => e.endsWith('.d.ts')))
 
 
-filesToTest.forEach(file => {
-    test(file, () => {
-        const basename = path.basename(file, '.ts')
-        const outputPath = file.replace(basename, `test.${basename}.d`)
-        const snapshotPath = file.replace(basename, `${basename}.d`)
+test('Must create an identical number of snapshots', () => {
+    assert.is(expectedSnapshots.size, actualSnapshots.size)
+    expectedSnapshots.forEach(e => assert.ok(actualSnapshots.has(e)))
+})
 
-        generate({
-            input: file,
-            output: outputPath
-        })
-
-        const snapshot = fs.readFileSync(snapshotPath, 'utf8')
-        const output = fs.readFileSync(outputPath, 'utf8')
-
-        assert.snapshot(output, snapshot)
-
-        // Cleanup if not CI
-        if (!process.env.CI) {
-            fs.unlinkSync(outputPath)
-        }
+actualSnapshots.forEach(fileName => {
+    test(fileName, () => {
+        const expected = fs.readFileSync(path.resolve(SNAPSHOTS_DIR_PATH, fileName), 'utf8')
+        const actual = fs.readFileSync(path.resolve(OUTPUT_DIR_PATH, fileName), 'utf8')
+        assert.snapshot(actual, expected)
     })
 })
 
