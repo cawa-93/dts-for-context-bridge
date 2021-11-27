@@ -1,7 +1,7 @@
 import {test} from 'uvu';
 import * as assert from 'uvu/assert';
 import {Project} from "ts-morph";
-import {findAliases} from "../lib/findAliases.js";
+import {findAliases} from "../src/findAliases.js";
 
 const project = new Project()
 

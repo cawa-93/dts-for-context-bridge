@@ -1,5 +1,5 @@
 import {test} from "uvu";
-import {findCallExpressionsByNames} from "../lib/findCallExpressionsByNames.js";
+import {findCallExpressionsByNames} from "../src/findCallExpressionsByNames.js";
 import {Project} from "ts-morph";
 import * as assert from 'uvu/assert';
 

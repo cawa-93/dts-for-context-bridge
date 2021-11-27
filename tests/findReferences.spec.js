@@ -1,6 +1,6 @@
 import {test} from 'uvu';
 import * as assert from 'uvu/assert';
-import {findReferences} from "../lib/findReferences.js";
+import {findReferences} from "../src/findReferences.js";
 import {Project} from "ts-morph";
 
 const project = new Project()

@@ -1,7 +1,7 @@
 import {test} from 'uvu';
 import * as assert from 'uvu/assert';
 import {Project, SyntaxKind} from "ts-morph";
-import {getDataFromCallExpression} from "../lib/getDataFromCallExpression.js";
+import {getDataFromCallExpression} from "../src/getDataFromCallExpression.js";
 
 const project = new Project()
 

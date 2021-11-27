@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import {generate} from "../lib/generate.js";
+import {generate} from "../src/generate.js";
 import {test} from "uvu";
 import * as assert from "uvu/assert";
 

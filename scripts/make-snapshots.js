@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import {generate} from "../lib/generate.js";
+import {generate} from "../src/generate.js";
 
 const SNAPSHOTS_DIR_PATH = path.resolve('./examples')
 
