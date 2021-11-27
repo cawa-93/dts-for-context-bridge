@@ -59,9 +59,9 @@ dts-cb --help
 ### Programmatic usage
 
 ```js
-import {index} from 'dts-for-context-bridge'
+import {generate} from 'dts-for-context-bridge'
 
-index({
+generate({
     input: GLOB_PATTERN,
     output: PATH_TO_FILE,
 })

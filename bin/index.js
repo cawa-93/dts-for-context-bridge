@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import coa from 'coa'
-import {index} from "../lib/index.js";
+import {generate} from "../lib/generate.js";
 
 coa.Cmd()
     .name(process.argv[1])
@@ -21,6 +21,6 @@ coa.Cmd()
     .short('o')
     .req()
     .end()
-    .act((opts) => index(opts))
+    .act((opts) => generate(opts))
     .run(process.argv.slice(2))
 
