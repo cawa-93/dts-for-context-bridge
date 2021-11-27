@@ -30,7 +30,7 @@ filesToTest.forEach(file => {
         const snapshot = fs.readFileSync(snapshotPath, 'utf8')
         const output = fs.readFileSync(outputPath, 'utf8')
 
-        assert.is(output, snapshot)
+        assert.snapshot(output, snapshot)
 
         // Cleanup if not CI
         if (!process.env.CI) {
