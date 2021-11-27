@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import {generate} from "../src/generate.js";
+import {generate} from "../dist/dts-cb.js";
 import {test} from "uvu";
 import * as assert from "uvu/assert";
 

@@ -2,14 +2,23 @@
   "name": "dts-for-context-bridge",
   "version": "0.3.0",
   "description": "dts-cb generate .d.ts file for contextBridge.exposeInMainWorld",
-  "main": "bin/index.js",
+  "main": "dist/dts-cb.cjs",
+  "module": "dist/dts-cb.js",
   "bin": {
     "dts-cb": "bin/index.js"
   },
   "type": "module",
+  "exports": {
+    "require": "./dist/dts-cb.cjs",
+    "default": "./dist/dts-cb.js"
+  },
   "scripts": {
     "test": "uvu tests",
-    "make:snapshots": "node scripts/make-snapshots.js"
+    "make:snapshots": "node scripts/make-snapshots.js",
+    "build:esm": "esbuild ./src/generate.js --bundle --external:ts-morph --minify --outfile=dist/dts-cb.js --platform=node --format=esm",
+    "build:cjs": "esbuild ./src/generate.js --bundle --external:ts-morph --minify --outfile=dist/dts-cb.cjs --platform=node --format=cjs",
+    "build": "npm run build:esm && npm run build:cjs",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "electron",
@@ -22,7 +31,7 @@
   },
   "license": "MIT",
   "files": [
-    "lib",
+    "dist",
     "bin"
   ],
   "dependencies": {
@@ -30,6 +39,7 @@
     "ts-morph": "13.0.2"
   },
   "devDependencies": {
+    "esbuild": "0.14.0",
     "uvu": "0.5.2"
   }
 }
