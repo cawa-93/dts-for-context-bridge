@@ -12,6 +12,6 @@ electronAlias.contextBridge.exposeInMainWorld('electronAlias',   {
  * Another Demo from Electron docs
  * @see https://www.electronjs.org/docs/latest/api/context-bridge
  */
-electronAlias.contextBridge.exposeInMainWorld('contextBridgeAlias',   {
+contextBridgeAlias.exposeInMainWorld('contextBridgeAlias',   {
     doThing: () => {}
 })
