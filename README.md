@@ -34,9 +34,12 @@ contextBridge.exposeInMainWorld(
 ```ts
 // generated.d.ts
 interface Window {
-    electron: {doThing: () => void}
+    readonly electron: {doThing: () => void}
 }
 ```
+
+See more [examples](/examples).
+
 ## Installation
 ```bash
 # global
