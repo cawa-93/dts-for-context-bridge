@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import coa from 'coa'
-import {generate} from "../dist/dts-cb.js";
+import {generate} from "../src/generate.js";
 
 coa.Cmd()
     .name(process.argv[1])
