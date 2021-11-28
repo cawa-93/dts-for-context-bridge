@@ -33,8 +33,15 @@ export function getDataFromCallExpression(expression) {
 
     const comment = expression.getPreviousSiblingIfKind(SyntaxKind.JSDocComment)
 
+    let apiKey = key.getType().getLiteralValue().toString()
+
+    // Should escape?
+    if (/[^a-z0-9_]/i.test(apiKey)) {
+        apiKey = key.getType().getText()
+    }
+
     return {
-        apiKey: key.getType().getLiteralValue(),
+        apiKey,
         api: value.getType().getText(),
         docs: comment ? [comment.getInnerText()] : undefined
     }

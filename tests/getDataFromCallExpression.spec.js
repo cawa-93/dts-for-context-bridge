@@ -17,6 +17,12 @@ test('Should find apiKey', () => {
 })
 
 
+test('Should escape apiKey', () => {
+    const {apiKey} = parseCallExpressionFromCode(`expose('escaped api key', '')`)
+    assert.is(apiKey, '"escaped api key"')
+})
+
+
 test('Should parse api type', () => {
     /** Alias for shorten code */
     const is = (code, expect) => assert.is(parseCallExpressionFromCode(code).api, expect)
@@ -50,7 +56,7 @@ test('Should parse single JSDoc before call expression', () => {
     const comment = commentRows.map((r) => ` * ${r}`).join('\n')
 
     const code = `/**\n${comment}\n */\n`
-    + `expose('key', 'api')`
+        + `expose('key', 'api')`
     assert.is(parseCallExpressionFromCode(code).docs[0], commentRows.join('\n'))
 })
 
