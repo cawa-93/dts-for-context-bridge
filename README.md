@@ -38,7 +38,7 @@ interface Window {
 }
 ```
 
-See more [examples](/examples).
+**See more [examples](/examples).**
 
 ## Installation
 ```bash
@@ -51,7 +51,11 @@ npm i dts-for-context-bridge
 
 ## Usage
 ```bash
-dts-cb --input=GLOB_PATTERN --output=PATH_TO_FILE
+# You can use glob pattern as input
+dts-cb --input="preload/src/**/*.ts" --output="preload/exposed.d.ts"
+
+# You can use tsconfig.json as input
+dts-cb --input="preload/tsconfig.json" --output="preload/exposed.d.ts"
 ```
 
 See all options by
@@ -65,8 +69,8 @@ dts-cb --help
 import {generate} from 'dts-for-context-bridge'
 
 generate({
-    input: GLOB_PATTERN,
-    output: PATH_TO_FILE,
+    input: 'preload/src/**/*.ts', // Or path to tsconfig.json
+    output: 'preload/exposed.d.ts',
 })
 ```
 
