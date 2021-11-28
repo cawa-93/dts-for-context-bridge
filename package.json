@@ -14,6 +14,7 @@
   },
   "scripts": {
     "test": "uvu tests",
+    "coverage": "npx c8 --clean npm run test",
     "make:snapshots": "node scripts/make-snapshots.js run",
     "build:esm": "esbuild ./src/generate.js --bundle --external:ts-morph --minify --outfile=dist/dts-cb.js --platform=node --format=esm",
     "build:cjs": "esbuild ./src/generate.js --bundle --external:ts-morph --minify --outfile=dist/dts-cb.cjs --platform=node --format=cjs",

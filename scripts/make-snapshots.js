@@ -23,6 +23,8 @@ export function makeSnapshots(
     })
 }
 
+/* c8 ignore start */
 if (process.argv[2] === 'run') {
     makeSnapshots()
 }
+/* c8 ignore stop */

@@ -54,4 +54,12 @@ test('Should parse single JSDoc before call expression', () => {
     assert.is(parseCallExpressionFromCode(code).docs[0], commentRows.join('\n'))
 })
 
+test('Should throw exception if expression is invalid', () => {
+    assert.throws(() => parseCallExpressionFromCode(`expose()`), /Expect CallExpression with at least 2 arguments/)
+    assert.throws(() => parseCallExpressionFromCode(`expose(1, 1)`), /Expect first argument with type StringLiteral/)
+    assert.throws(() => parseCallExpressionFromCode(`const key = 1; expose(key, 1)`), /Expect first argument with type StringLiteral/)
+    assert.throws(() => parseCallExpressionFromCode(`expose('', 1)`, /First argument can not be empty string/))
+    assert.throws(() => parseCallExpressionFromCode(`const key = ''; expose(key, 1)`), /First argument can not be empty string/)
+})
+
 test.run()
