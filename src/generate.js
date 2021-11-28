@@ -7,8 +7,16 @@ import {writeFileSync} from "node:fs";
  * @param {{input: string, output: string}} opts
  */
 export function generate({input, output}) {
-    const project = new Project();
-    project.addSourceFilesAtPaths(input);
+    const project = new Project(input.endsWith('tsconfig.json')
+        ? {
+            tsConfigFilePath: input
+        }
+        : {}
+    );
+
+    if (!input.endsWith('tsconfig.json')) {
+        project.addSourceFilesAtPaths(input);
+    }
 
     const dtsFile = project.createSourceFile('./tmp.d.ts')
     const interfaceDeclaration = dtsFile.addInterface({

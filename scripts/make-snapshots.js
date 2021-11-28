@@ -6,12 +6,17 @@ export function makeSnapshots(
     SNAPSHOTS_DIR_PATH = path.resolve('./examples'),
     OUTPUT_DIR_PATH = path.resolve('./examples')
 ) {
-    const entries =  fs.readdirSync(SNAPSHOTS_DIR_PATH)
+    const entries = fs.readdirSync(SNAPSHOTS_DIR_PATH)
     entries.forEach(entry => {
         const fullPath = path.resolve(SNAPSHOTS_DIR_PATH, entry)
         if (fs.lstatSync(fullPath).isDirectory()) {
+
+            const input = fs.existsSync(path.resolve(fullPath, 'tsconfig.json'))
+                ? path.resolve(fullPath, 'tsconfig.json')
+                : path.resolve(fullPath, './**/*.ts')
+
             generate({
-                input: path.resolve(SNAPSHOTS_DIR_PATH, entry, './**/*.ts'),
+                input,
                 output: path.resolve(OUTPUT_DIR_PATH, `${entry}.d.ts`),
             })
         } else if (entry.endsWith('.ts') && !entry.endsWith('.d.ts')) {
