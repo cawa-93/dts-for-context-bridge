@@ -27,9 +27,9 @@ declare module 'electron' {
 }
 
 /**
- * Needed to mute annoying warnings from the TS
- * @example
+ * Needed to mute annoying TS warnings
  *
+ * @example
  * // TS2550: Property 'startsWith' does not exist on type 'string'.
  * // Do you need to change your target library?
  * // Try changing the 'lib' compiler option to 'es2015' or later.
