@@ -17,11 +17,11 @@ test('Should find call expressions only with allowed names', () => {
         + `another.method${args};\n`
         + `method${args};\n`
 
-    const allowedNames = [
+    const allowedNames = new Set([
         'electron.contextBridge.exposeInMainWorld',
         'contextBridge.exposeInMainWorld',
         'exposeInMainWorld',
-    ]
+    ])
 
     const file = project.createSourceFile('tmp.ts', code, {overwrite: true})
     const expressionsStrings = findCallExpressionsByNames(file, allowedNames).map(e => e.getText())
@@ -40,11 +40,11 @@ test('Should ignore calls without arguments', () => {
         + `electron.contextBridge.exposeInMainWorld();\n`
         + `exposeInMainWorld();\n`
 
-    const allowedNames = [
+    const allowedNames = new Set([
         'electron.contextBridge.exposeInMainWorld',
         'contextBridge.exposeInMainWorld',
         'exposeInMainWorld',
-    ]
+    ])
 
     const file = project.createSourceFile('tmp.ts', code, {overwrite: true})
     const expressions = findCallExpressionsByNames(file, allowedNames)
@@ -59,11 +59,11 @@ test('Should ignore calls with invalid arguments', () => {
         + `electron.contextBridge.exposeInMainWorld(1, '');\n` // First key must be a string
         + `exposeInMainWorld({}, '');\n` // First key must be a string
 
-    const allowedNames = [
+    const allowedNames = new Set([
         'electron.contextBridge.exposeInMainWorld',
         'contextBridge.exposeInMainWorld',
         'exposeInMainWorld',
-    ]
+    ])
 
     const file = project.createSourceFile('tmp.ts', code, {overwrite: true})
     const expressions = findCallExpressionsByNames(file, allowedNames)

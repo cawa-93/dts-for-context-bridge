@@ -3,7 +3,7 @@ import {SyntaxKind} from "ts-morph";
 /**
  * Searches the file for method calls by the specified names
  * @param {import('ts-morph').SourceFile} file
- * @param {string[]} names
+ * @param {Set<string>} names
  * @return {import('ts-morph').CallExpression[]}
  */
 export function findCallExpressionsByNames(file, names) {
@@ -11,7 +11,7 @@ export function findCallExpressionsByNames(file, names) {
         .getDescendantsOfKind(SyntaxKind.CallExpression)
         .filter(e => {
                 // Only allow calls by specified names
-                if (!names.includes(e.getFirstChild().getText())) {
+                if (!names.has(e.getFirstChild().getText())) {
                     return false;
                 }
 

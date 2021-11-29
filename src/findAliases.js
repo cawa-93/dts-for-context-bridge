@@ -4,7 +4,7 @@ import {SyntaxKind} from "ts-morph";
 /**
  * Find relevant method names from ESM imports
  * @param file
- * @return {string[]}
+ * @return {Set<string>}
  *
  * @example
  * import electron from 'electron';
@@ -15,45 +15,65 @@ import {SyntaxKind} from "ts-morph";
 function findAliasesFromESImports(file) {
     return file
         .getDescendantsOfKind(SyntaxKind.ImportDeclaration)
-        .filter(d => d.getLastChildByKind(SyntaxKind.StringLiteral).compilerNode.text === 'electron')
         .reduce(
             (aliases, declaration) => {
+
+                /**
+                 * Skip imports from not 'electron' module
+                 */
+                if (declaration.getModuleSpecifier().getLiteralValue() !== 'electron') {
+                    return aliases
+                }
+
+
+                const importClause = declaration.getImportClause()
+
+                /**
+                 * Skip imports without clause
+                 * @example
+                 * import 'module';
+                 */
+                if (!importClause) {
+                    return aliases
+                }
+
                 /**
                  * Skip type-only imports
                  * @example
                  * import type {contextBridge} from 'electron'
                  */
-                if (declaration.getImportClause().isTypeOnly()) {
+                if (importClause.isTypeOnly()) {
                     return aliases
                 }
 
-                const defaultImport = declaration.getImportClause().getDefaultImport()
+
+                const defaultImport = importClause.getDefaultImport()
                 if (defaultImport) {
-                    const electronAlias = defaultImport.getText()
-                    aliases.push(`${electronAlias}.contextBridge.exposeInMainWorld`)
+                    aliases.add(`${defaultImport.getText()}.contextBridge.exposeInMainWorld`)
                 }
 
-                const namedImports = declaration.getImportClause().getNamedImports()
-                namedImports.forEach(specifier => {
+                importClause
+                    .getNamedImports()
+                    .forEach(specifier => {
 
-                    /**
-                     * Skip type-only imports
-                     * @example
-                     * import {type contextBridge} from 'electron'
-                     */
-                    if (specifier.isTypeOnly()) {
-                        return
-                    }
+                        /**
+                         * Skip type-only imports
+                         * @example
+                         * import {type contextBridge} from 'electron'
+                         */
+                        if (specifier.isTypeOnly()) {
+                            return
+                        }
 
-                    const {name, alias} = specifier.getStructure()
-                    if (name === 'contextBridge') {
-                        aliases.push(`${alias || name}.exposeInMainWorld`)
-                    }
-                })
+                        const {name, alias} = specifier.getStructure()
+                        if (name === 'contextBridge') {
+                            aliases.add(`${alias || name}.exposeInMainWorld`)
+                        }
+                    })
 
                 return aliases
             },
-            /** @type {string[]} */[]
+            /** @type {Set<string>} */new Set
         )
 }
 
@@ -141,9 +161,10 @@ function findAliasesFromCJSRequires(file) {
  * - Looks for alternative names in imports
  *
  * @param {import("ts-morph").SourceFile} file
- * @returns {string[]}
+ * @returns {Set<string>}
  */
 export function findAliases(file) {
-    return findAliasesFromESImports(file)
-        .concat(findAliasesFromCJSRequires(file))
+    const aliases = findAliasesFromESImports(file)
+    findAliasesFromCJSRequires(file).forEach(s => aliases.add(s))
+    return aliases
 }

@@ -12,7 +12,7 @@ const project = new Project()
  */
 const check = (code, expected) => {
     const file = project.createSourceFile('tmp.ts', code, {overwrite: true})
-    const actual = findAliases(file)
+    const actual = Array.from(findAliases(file))
     assert.equal(actual.sort(), expected.sort());
 }
 
