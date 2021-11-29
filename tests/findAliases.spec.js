@@ -22,6 +22,10 @@ test('Default import', () => {
 
     // CJS
     check(`const electron = require('electron')`, ['electron.contextBridge.exposeInMainWorld'])
+    check(
+        `const module = 'electron';\nconst electron = require(module)`,
+        ['electron.contextBridge.exposeInMainWorld']
+    )
 })
 
 

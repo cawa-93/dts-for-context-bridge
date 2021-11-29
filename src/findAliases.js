@@ -106,16 +106,17 @@ function findAliasesFromCJSRequires(file) {
                 /**
                  * Skip `require` from not `electron`
                  */
-                if (expression.getArguments()?.[0]?.getLiteralValue() !== 'electron') {
+                const moduleName = expression.getArguments()[0]
+                if (!moduleName || moduleName.getType().getLiteralValue() !== 'electron') {
                     return aliases
                 }
 
-                const variableDeclarationList = expression.getFirstAncestorByKind(SyntaxKind.VariableDeclarationList)
                 /**
                  * Skip `require` without any variable declaration
                  * @example
                  * require('electron')
                  */
+                const variableDeclarationList = expression.getFirstAncestorByKind(SyntaxKind.VariableDeclarationList)
                 if (!variableDeclarationList) {
                     return aliases
                 }
@@ -174,7 +175,7 @@ function findAliasesFromCJSRequires(file) {
 
 /**
  * Returns an array of aliases for an electron.contextBridge.exposeInMainWorld:
- * - Looks for alternative names in imports
+ * - Looks for alternative names in imports and `require`
  *
  * @param {import("ts-morph").SourceFile} file
  * @returns {Set<string>}
