@@ -11,7 +11,7 @@ export function findCallExpressionsByNames(file, names) {
         .getDescendantsOfKind(SyntaxKind.CallExpression)
         .filter(e => {
                 // Only allow calls by specified names
-                if (!names.has(e.getFirstChild().getText())) {
+                if (!names.has(e.getExpression().getText())) {
                     return false;
                 }
 

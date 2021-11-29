@@ -140,7 +140,8 @@ test('Should return empty array if no relevant imports', () => {
     check(
         `import {somethingElse} from 'electron';\n`
         + `import notElectron from 'notElectron';\n`
-        + `import unexpected from '';\n`,
+        + `import unexpected from '';\n`
+        + `import 'electron';\n`,
         []
     )
 
@@ -148,7 +149,8 @@ test('Should return empty array if no relevant imports', () => {
     check(
         `const {somethingElse} = require('electron');\n`
         + `const notElectron = require('notElectron');\n`
-        + `const unexpected = require();\n`,
+        + `const unexpected = require();\n`
+        + `require('electron');\n`,
         []
     )
 })

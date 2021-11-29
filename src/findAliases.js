@@ -80,7 +80,7 @@ function findAliasesFromESImports(file) {
 /**
  * Find relevant method names from CJS require()
  * @param file
- * @return {string[]}
+ * @return {Set<string>}
  *
  * @example
  * const electron = require('electron');
@@ -93,17 +93,33 @@ function findAliasesFromESImports(file) {
 function findAliasesFromCJSRequires(file) {
     return file
         .getDescendantsOfKind(SyntaxKind.CallExpression)
-        .filter(e => {
-            const identifier = e.getFirstChildByKind(SyntaxKind.Identifier)
-            if (!identifier || identifier.getText() !== 'require') return false
-            const [moduleName] = e.getArguments()
-            if (!moduleName) return false
-            const moduleType = moduleName.getType()
-            return moduleType.isStringLiteral() && moduleType.getLiteralValue() === 'electron'
-        })
         .reduce(
             (aliases, expression) => {
+
+                /**
+                 * Skip any not `require` calls
+                 */
+                if (expression.getExpression().getText() !== 'require') {
+                    return aliases
+                }
+
+                /**
+                 * Skip `require` from not `electron`
+                 */
+                if (expression.getArguments()?.[0]?.getLiteralValue() !== 'electron') {
+                    return aliases
+                }
+
                 const variableDeclarationList = expression.getFirstAncestorByKind(SyntaxKind.VariableDeclarationList)
+                /**
+                 * Skip `require` without any variable declaration
+                 * @example
+                 * require('electron')
+                 */
+                if (!variableDeclarationList) {
+                    return aliases
+                }
+
                 const declarations = variableDeclarationList.getDeclarations()
 
                 declarations.forEach(declaration => {
@@ -115,7 +131,7 @@ function findAliasesFromCJSRequires(file) {
                          * const electronAlias = require('electron');
                          */
                         case SyntaxKind.Identifier :
-                            aliases.push(`${declaration.compilerNode.name.getText()}.contextBridge.exposeInMainWorld`)
+                            aliases.add(`${declaration.compilerNode.name.getText()}.contextBridge.exposeInMainWorld`)
                             break;
 
                         /**
@@ -131,14 +147,14 @@ function findAliasesFromCJSRequires(file) {
                                     const prop = e.propertyName || e.name
                                     if (prop.escapedText !== 'contextBridge') return
                                     if (typeof e.name.escapedText === 'string') {
-                                        aliases.push(`${e.name.escapedText}.exposeInMainWorld`)
+                                        aliases.add(`${e.name.escapedText}.exposeInMainWorld`)
                                     } else if (e.name.kind === SyntaxKind.ObjectBindingPattern) {
                                         const subBindings = e.name.elements
                                         subBindings.forEach(e => {
                                             const prop = e.propertyName || e.name
                                             if (prop.escapedText !== 'exposeInMainWorld') return
                                             if (typeof e.name.escapedText === 'string') {
-                                                aliases.push(`${e.name.escapedText}`)
+                                                aliases.add(`${e.name.escapedText}`)
                                             }
                                         })
                                     }
@@ -149,7 +165,7 @@ function findAliasesFromCJSRequires(file) {
 
                 return aliases
             },
-            /** @type {string[]} */[]
+            /** @type {Set<string>} */new Set()
         )
 
 

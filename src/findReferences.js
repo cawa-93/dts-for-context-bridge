@@ -11,8 +11,7 @@ export function findReferences(project) {
     const references = new Map()
 
     project.getSourceFiles().forEach(file => {
-        const aliases = findAliases(file)
-        findCallExpressionsByNames(file, aliases)
+        findCallExpressionsByNames(file, findAliases(file))
             .forEach(e => {
                 const {apiKey, api, docs} = getDataFromCallExpression(e)
                 references.set(apiKey, {value: api, docs})
