@@ -35,6 +35,9 @@ test('Should parse api type', () => {
     is(`const api = {foo: 'bar'}; expose('k', api)`, `{ foo: string; }`)
     is(`const api = {foo: 'bar'} as const; expose('k', api)`, `{ readonly foo: "bar"; }`)
     is(`const v = {foo: 'bar'}; const api = [v]; expose('k', api)`, `{ foo: string; }[]`)
+    is(`function api() {return 'api'}; expose('k', api)`, `() => string`)
+    is(`function api() {return 'api' as const}; expose('k', api)`, `() => "api"`)
+
 })
 
 

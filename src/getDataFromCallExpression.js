@@ -1,4 +1,4 @@
-import {SyntaxKind} from "ts-morph";
+import {SyntaxKind, TypeFormatFlags} from "ts-morph";
 
 /**
  * @typedef ParsedExpression
@@ -40,9 +40,13 @@ export function getDataFromCallExpression(expression) {
         apiKey = key.getType().getText()
     }
 
+    const api = value
+        .getType()
+        .getText(null, TypeFormatFlags.UseFullyQualifiedType)
+
     return {
         apiKey,
-        api: value.getType().getText(),
+        api,
         docs: comment ? [comment.getInnerText()] : undefined
     }
 }
