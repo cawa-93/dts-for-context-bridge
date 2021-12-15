@@ -1,3 +1,3 @@
 interface Window {
-    readonly "dynamic-key": "key";
+    readonly 'dynamic-key': 'key';
 }

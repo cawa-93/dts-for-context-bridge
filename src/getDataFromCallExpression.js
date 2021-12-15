@@ -37,12 +37,17 @@ export function getDataFromCallExpression(expression) {
 
     // Should escape?
     if (/[^a-z0-9_]/i.test(apiKey)) {
-        apiKey = key.getType().getText()
+        apiKey = key.getType().getText(null, TypeFormatFlags.UseSingleQuotesForStringLiteralType)
     }
 
     const api = value
         .getType()
-        .getText(null, TypeFormatFlags.UseFullyQualifiedType)
+        .getText(
+            null,
+            TypeFormatFlags.UseFullyQualifiedType
+            | TypeFormatFlags.NoTruncation
+            | TypeFormatFlags.UseSingleQuotesForStringLiteralType
+        )
 
     return {
         apiKey,

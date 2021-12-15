@@ -8,7 +8,7 @@ const project = new Project()
 test('default import', () => {
 
     const expectedKey = 'EXPECTED_KEY'
-    const expectedType = '"EXPECTED_TYPE"'
+    const expectedType = `'EXPECTED_TYPE'`
 
     project.createSourceFile(
         './tmp.ts',
@@ -24,7 +24,7 @@ test('default import', () => {
 test('default import with alias', () => {
 
     const expectedKey = 'EXPECTED_KEY'
-    const expectedType = '"EXPECTED_TYPE"'
+    const expectedType = `'EXPECTED_TYPE'`
 
     project.createSourceFile(
         './tmp.ts',
@@ -40,7 +40,7 @@ test('default import with alias', () => {
 test('named import', () => {
 
     const expectedKey = 'EXPECTED_KEY'
-    const expectedType = '"EXPECTED_TYPE"'
+    const expectedType = `'EXPECTED_TYPE'`
 
     project.createSourceFile(
         './tmp.ts',
@@ -56,7 +56,7 @@ test('named import', () => {
 test('named import with alias', () => {
 
     const expectedKey = 'EXPECTED_KEY'
-    const expectedType = '"EXPECTED_TYPE"'
+    const expectedType = `'EXPECTED_TYPE'`
 
     project.createSourceFile(
         './tmp.ts',
