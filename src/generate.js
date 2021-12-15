@@ -1,12 +1,8 @@
 import {Project} from "ts-morph";
 import {findReferences} from "./findReferences.js";
-import {writeFileSync} from "node:fs";
 
-/**
- *
- * @param {{input: string, output: string}} opts
- */
-export function generate({input, output}) {
+
+function getDtsFileToWrite(input) {
     const project = new Project(input.endsWith('tsconfig.json')
         ? {
             tsConfigFilePath: input
@@ -33,6 +29,18 @@ export function generate({input, output}) {
             })
         })
 
-    const interfaceStr = dtsFile.getText()
-    writeFileSync(output, interfaceStr, 'utf8')
+    return dtsFile
+}
+
+
+export function generate({input, output}) {
+    getDtsFileToWrite(input).copyImmediatelySync(output, {
+        overwrite: true
+    })
+}
+
+export function generateAsync({input, output}) {
+    return getDtsFileToWrite(input).copyImmediately(output, {
+        overwrite: true
+    })
 }
