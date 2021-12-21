@@ -7,7 +7,8 @@ const apiKey = 'electron'
  * Docs for api declaration
  */
 const api = {
-    doThing: () => {}
+  doThing: () => {
+  }
 }
 
 /**

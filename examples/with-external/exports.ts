@@ -1,5 +1,6 @@
 export const api = {
-    doThing: () => {}
+  doThing: () => {
+  }
 } as const
 
 export const apiKey = 'electronApi'

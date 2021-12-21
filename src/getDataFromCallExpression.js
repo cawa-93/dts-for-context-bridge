@@ -17,41 +17,41 @@ import {SyntaxKind, TypeFormatFlags} from "ts-morph";
  * @return {ParsedExpression}
  */
 export function getDataFromCallExpression(expression) {
-    const [key, value] = expression.getArguments()
+  const [key, value] = expression.getArguments()
 
-    if (!key || !value) {
-        throw new Error('Expect CallExpression with at least 2 arguments ')
-    }
+  if (!key || !value) {
+    throw new Error('Expect CallExpression with at least 2 arguments ')
+  }
 
-    if (!key.getType().isStringLiteral()) {
-        throw new Error('Expect first argument with type StringLiteral')
-    }
+  if (!key.getType().isStringLiteral()) {
+    throw new Error('Expect first argument with type StringLiteral')
+  }
 
-    if (!key.getType().getLiteralValue()) {
-        throw new Error('First argument can not be empty string')
-    }
+  if (!key.getType().getLiteralValue()) {
+    throw new Error('First argument can not be empty string')
+  }
 
-    const comment = expression.getPreviousSiblingIfKind(SyntaxKind.JSDocComment)
+  const comment = expression.getPreviousSiblingIfKind(SyntaxKind.JSDocComment)
 
-    let apiKey = key.getType().getLiteralValue().toString()
+  let apiKey = key.getType().getLiteralValue().toString()
 
-    // Should escape?
-    if (/[^a-z0-9_]/i.test(apiKey)) {
-        apiKey = key.getType().getText(null, TypeFormatFlags.UseSingleQuotesForStringLiteralType)
-    }
+  // Should escape?
+  if (/[^a-z0-9_]/i.test(apiKey)) {
+    apiKey = key.getType().getText(null, TypeFormatFlags.UseSingleQuotesForStringLiteralType)
+  }
 
-    const api = value
-        .getType()
-        .getText(
-            null,
-            TypeFormatFlags.UseFullyQualifiedType
-            | TypeFormatFlags.NoTruncation
-            | TypeFormatFlags.UseSingleQuotesForStringLiteralType
-        )
+  const api = value
+    .getType()
+    .getText(
+      null,
+      TypeFormatFlags.UseFullyQualifiedType
+      | TypeFormatFlags.NoTruncation
+      | TypeFormatFlags.UseSingleQuotesForStringLiteralType
+    )
 
-    return {
-        apiKey,
-        api,
-        docs: comment ? [comment.getInnerText()] : undefined
-    }
+  return {
+    apiKey,
+    api,
+    docs: comment ? [comment.getInnerText()] : undefined
+  }
 }

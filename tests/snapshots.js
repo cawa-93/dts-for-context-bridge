@@ -14,16 +14,16 @@ const actualSnapshots = new Set(fs.readdirSync(SNAPSHOTS_DIR_PATH).filter(e => e
 
 
 test('Must create an identical number of snapshots', () => {
-    assert.is(expectedSnapshots.size, actualSnapshots.size)
-    expectedSnapshots.forEach(e => assert.ok(actualSnapshots.has(e)))
+  assert.is(expectedSnapshots.size, actualSnapshots.size)
+  expectedSnapshots.forEach(e => assert.ok(actualSnapshots.has(e)))
 })
 
 actualSnapshots.forEach(fileName => {
-    test(fileName, () => {
-        const expected = fs.readFileSync(path.resolve(SNAPSHOTS_DIR_PATH, fileName), 'utf8')
-        const actual = fs.readFileSync(path.resolve(OUTPUT_DIR_PATH, fileName), 'utf8')
-        assert.snapshot(actual, expected)
-    })
+  test(fileName, () => {
+    const expected = fs.readFileSync(path.resolve(SNAPSHOTS_DIR_PATH, fileName), 'utf8')
+    const actual = fs.readFileSync(path.resolve(OUTPUT_DIR_PATH, fileName), 'utf8')
+    assert.snapshot(actual, expected)
+  })
 })
 
 test.run()

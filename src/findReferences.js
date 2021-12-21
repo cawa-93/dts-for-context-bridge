@@ -8,17 +8,17 @@ import {getDataFromCallExpression} from "./getDataFromCallExpression.js";
  * @returns {Map<string, {value: string, docs?: string[]}>}
  */
 export function findReferences(project) {
-    const references = new Map()
+  const references = new Map()
 
-    project.getSourceFiles().forEach(file => {
-        findCallExpressionsByNames(file, findAliases(file))
-            .forEach(e => {
-                const {apiKey, api, docs} = getDataFromCallExpression(e)
-                references.set(apiKey, {value: api, docs})
-            })
-    })
+  project.getSourceFiles().forEach(file => {
+    findCallExpressionsByNames(file, findAliases(file))
+      .forEach(e => {
+        const {apiKey, api, docs} = getDataFromCallExpression(e)
+        references.set(apiKey, {value: api, docs})
+      })
+  })
 
-    return references
+  return references
 }
 
 
