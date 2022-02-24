@@ -1,5 +1,15 @@
 # dts-cb
 
+----
+
+### **Archived!**
+
+### As a result of Russia's military invasion of Ukraine, I have neither the time nor the strength to continue working. 😥
+
+### I will restore this template when the war in Ukraine is over.🙏
+
+----
+
 This utility is designed to
 analyze [context bridges in Electron application](https://www.electronjs.org/ru/docs/latest/api/context-bridge) and
 create `.d.ts` files.
